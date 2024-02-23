@@ -1,9 +1,19 @@
-var express = require('express');
-var router = express.Router();
+const mongoose = require('mongoose')
+const plm = require('passport-local-mongoose')
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+mongoose.connect('mongodb://127.0.0.1:27017/bankingtest').then(res=>{
+  console.log("connected...")
+}).catch(err=>{
+  console.log("not connected...")
+})
 
-module.exports = router;
+var userSchema = mongoose.Schema({
+  username:String,
+  name:String,
+  password:String
+})
+
+mongoose.plugin(plm)
+
+module.exports = mongoose.model("user",userSchema)
+
